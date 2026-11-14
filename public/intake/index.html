@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wynn Website Questions</title>
+<!--
+  Client intake form for the Wynn Real Estate website.
+
+  A single self-contained page (no build step, no dependencies) so it opens
+  instantly from a text message on any phone. Answers are kept in the
+  browser only; the last screen puts them into a ready-written text or email.
+
+  To have that message addressed automatically, add the recipient after a #
+  when sharing the link:  .../intake/#2155550123  or  .../intake/#you@example.com
+-->
+<style>
+  html { font-size: 20px; -webkit-text-size-adjust: 100%; color-scheme: light; }
+  html.big { font-size: 24px; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #f8f7f4;
+    color: #111114;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.45;
+  }
+  [hidden] { display: none !important; }
+
+  :focus { outline: 4px solid #0b57d0; outline-offset: 3px; }
+  main:focus, h1:focus { outline: none; }
+
+  .skip { position: absolute; left: -999rem; top: 0; background: #fff; padding: 0.6rem 1rem; }
+  .skip:focus { left: 0.5rem; top: 0.5rem; z-index: 5; }
+
+  /* Top bar */
+  .top { background: #09090b; color: #fff; }
+  .top-inner {
+    max-width: 34rem; margin: 0 auto; padding: 0.6rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { font-weight: 700; letter-spacing: 0.04em; color: #f5b700; font-size: 0.9rem; }
+  .mini {
+    font: inherit; font-size: 0.8rem; font-weight: 600; color: #fff; background: transparent;
+    border: 2px solid #fff; border-radius: 0.5rem; padding: 0.4rem 0.7rem; min-height: 2.4rem; cursor: pointer;
+  }
+
+  .wrap { max-width: 34rem; margin: 0 auto; padding: 1rem 1rem 4rem; }
+
+  /* Progress */
+  .where { font-size: 0.85rem; font-weight: 700; color: #4a4a52; margin: 0.2rem 0 0.4rem; }
+  .where b { color: #c8102e; }
+  .bar { height: 0.6rem; background: #dedad0; border-radius: 1rem; overflow: hidden; }
+  .bar span { display: block; height: 100%; background: #c8102e; border-radius: 1rem; }
+
+  h1 { font-size: 1.55rem; line-height: 1.2; margin: 1.3rem 0 0.5rem; }
+  h2 { font-size: 1.15rem; margin: 1.6rem 0 0.4rem; }
+  p { margin: 0.5rem 0; }
+  .help { color: #3a3a42; margin: 0 0 1rem; }
+  .small { font-size: 0.85rem; color: #4a4a52; }
+
+  /* Fields */
+  label.field { display: block; font-weight: 700; margin-bottom: 0.4rem; }
+  input.txt, textarea.txt {
+    display: block; width: 100%; font: inherit; font-size: 1.1rem; color: #111114; background: #fff;
+    border: 2px solid #09090b; border-radius: 0.6rem; padding: 0.8rem; margin: 0;
+  }
+  textarea.txt { min-height: 8rem; resize: vertical; }
+
+  /* Tap-to-answer options */
+  .opt {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 1.1rem; font-weight: 600;
+    color: #111114; background: #fff; border: 2px solid #09090b; border-radius: 0.7rem;
+    padding: 0.9rem 1rem 0.9rem 3rem; min-height: 3.4rem; margin: 0.6rem 0 0; cursor: pointer; position: relative;
+  }
+  .opt::before {
+    content: ""; position: absolute; left: 0.9rem; top: 50%; margin-top: -0.7rem;
+    width: 1.4rem; height: 1.4rem; border: 2px solid #09090b; border-radius: 50%; background: #fff;
+  }
+  .opt.multi::before { border-radius: 0.3rem; }
+  .opt[aria-pressed="true"] { background: #09090b; color: #fff; }
+  .opt[aria-pressed="true"]::before { background: #f5b700; border-color: #f5b700; }
+  .opt[aria-pressed="true"]::after {
+    content: ""; position: absolute; left: 1.38rem; top: 50%; margin-top: -0.5rem;
+    width: 0.4rem; height: 0.75rem; border: solid #09090b; border-width: 0 0.2rem 0.2rem 0;
+    -webkit-transform: rotate(45deg); transform: rotate(45deg);
+  }
+
+  /* Buttons */
+  .btn {
+    display: block; width: 100%; font: inherit; font-size: 1.2rem; font-weight: 700; text-align: center;
+    text-decoration: none; color: #fff; background: #c8102e; border: 2px solid #c8102e; border-radius: 0.8rem;
+    padding: 0.9rem 1rem; min-height: 3.6rem; margin: 1.2rem 0 0; cursor: pointer;
+  }
+  .btn.plain { color: #09090b; background: transparent; border-color: #09090b; font-size: 1rem; min-height: 3.2rem; margin-top: 0.7rem; }
+  .pair { display: flex; margin: 0 -0.35rem; }
+  .pair .btn { margin-left: 0.35rem; margin-right: 0.35rem; }
+  .link {
+    font: inherit; font-size: 0.9rem; font-weight: 600; color: #09090b; background: none; border: 0;
+    text-decoration: underline; padding: 0.7rem 0.2rem; min-height: 2.6rem; cursor: pointer;
+  }
+  .tools { display: flex; justify-content: space-between; margin-top: 0.3rem; }
+
+  /* Lists */
+  ul.plainlist { padding-left: 1.2rem; margin: 0.6rem 0; }
+  ul.plainlist li { margin: 0.5rem 0; }
+  .card { background: #fff; border: 2px solid #09090b; border-radius: 0.8rem; padding: 0.9rem 1rem; margin: 0.8rem 0; }
+  .note { background: #fff6d6; border: 2px solid #b38600; border-radius: 0.8rem; padding: 0.8rem 1rem; margin: 1rem 0; }
+  .sec {
+    display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left;
+    font: inherit; font-size: 1.05rem; font-weight: 700; color: #111114; background: #fff;
+    border: 2px solid #09090b; border-radius: 0.7rem; padding: 0.8rem 1rem; min-height: 3.4rem; margin: 0.6rem 0 0; cursor: pointer;
+  }
+  .sec span { font-size: 0.85rem; font-weight: 600; color: #4a4a52; margin-left: 0.8rem; white-space: nowrap; }
+  dl.answers { margin: 0; }
+  dl.answers dt { font-size: 0.8rem; font-weight: 700; color: #4a4a52; margin-top: 0.8rem; }
+  dl.answers dd { margin: 0.1rem 0 0; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }
+  dl.answers button { margin-left: -0.2rem; }
+  textarea.out { font-size: 0.8rem; min-height: 10rem; }
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Skip to the question</a>
+
+<header class="top">
+  <div class="top-inner">
+    <span class="brand">WYNN REAL ESTATE</span>
+    <button type="button" class="mini" id="sizeBtn" aria-pressed="false">Bigger text</button>
+  </div>
+</header>
+
+<main id="app" class="wrap" tabindex="-1"></main>
+
+<noscript>
+  <div class="wrap"><p>This form needs JavaScript switched on. Please call or text the person who sent it to you and they will ask you the questions instead.</p></div>
+</noscript>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORE = "wynn-intake-v1";
+
+  var SECTIONS = [
+    { id: "you", title: "About you" },
+    { id: "brokerage", title: "Your brokerage" },
+    { id: "contact", title: "How people reach you" },
+    { id: "work", title: "Where you work and what you do" },
+    { id: "record", title: "Your track record" },
+    { id: "homes", title: "Homes to show" },
+    { id: "story", title: "Your story" },
+    { id: "wrap", title: "Photos and last things" }
+  ];
+
+  var YES_NO = [{ v: "yes", t: "Yes" }, { v: "no", t: "No" }];
+  var YES_NO_UNSURE = [{ v: "yes", t: "Yes" }, { v: "no", t: "No" }, { v: "unsure", t: "I am not sure" }];
+
+  function is(id, value) { return function (a) { return a[id] === value; }; }
+  function filled(id) {
+    return function (a) {
+      var v = a[id];
+      return Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim());
+    };
+  }
+
+  /*
+    One entry per screen. `label` is the short name used in the message that
+    gets sent back. `when` hides follow-up questions that don't apply.
+    Rule references are in the comments so the reason for a question survives.
+  */
+  var QUESTIONS = [
+    /* ---------------------------------------------------------- About you */
+    // 49 Pa. Code 35.305: advertise under the licensed name.
+    { id: "licName", section: "you", type: "text", label: "Name on license", autocomplete: "name",
+      q: "What is your full name, exactly as it is printed on your real estate license?",
+      help: "Please copy it the way the license shows it, middle initial and all." },
+    // 35.305(b): a first-name nickname must be on file with the Commission.
+    { id: "nick", section: "you", type: "choice", label: "Goes by a different first name",
+      q: "Do clients know you by a different first name?",
+      help: "For example, Peggy instead of Margaret.",
+      options: [{ v: "no", t: "No, I use the name on my license", s: "No" }, { v: "yes", t: "Yes, I go by a different first name", s: "Yes" }] },
+    { id: "nickName", section: "you", type: "text", label: "Preferred first name", when: is("nick", "yes"),
+      q: "What name do you go by?" },
+    { id: "nickReg", section: "you", type: "choice", label: "Nickname on file with the Commission", when: is("nick", "yes"),
+      q: "Is that nickname on file with the Pennsylvania Real Estate Commission?",
+      help: "Pennsylvania only lets you advertise a nickname that you put on your license application or renewal.",
+      options: YES_NO_UNSURE },
+    { id: "licType", section: "you", type: "choice", label: "License type",
+      q: "Which kind of license do you hold?",
+      options: [{ v: "Salesperson", t: "Salesperson" }, { v: "Associate broker", t: "Associate broker" },
+                { v: "Broker", t: "Broker (I run the brokerage)", s: "Broker" }, { v: "Not sure", t: "I am not sure" }] },
+    { id: "licNum", section: "you", type: "text", label: "PA license number", autocapitalize: "characters",
+      q: "What is your Pennsylvania license number?",
+      help: "It is printed on your license. We use it to check that the website matches the state's records." },
+    // NAR Standard of Practice 12-9: website shows state(s) of licensure.
+    { id: "otherStates", section: "you", type: "choice", label: "Licensed in other states",
+      q: "Are you licensed in any state besides Pennsylvania?", options: YES_NO },
+    { id: "otherStatesList", section: "you", type: "text", label: "Other states", when: is("otherStates", "yes"),
+      q: "Which other states?" },
+    { id: "realtor", section: "you", type: "choice", label: "REALTOR member",
+      q: "Are you a member of the National Association of REALTORS?",
+      help: "Only members may call themselves a REALTOR, so this tells us which word to use.",
+      options: YES_NO_UNSURE },
+    { id: "board", section: "you", type: "text", label: "Local REALTOR association", when: is("realtor", "yes"),
+      q: "Which local board or association do you belong to?" },
+    // NAR 12-13: only credentials actually held.
+    { id: "desig", section: "you", type: "text", label: "Designations held",
+      q: "Do you hold any designations, such as GRI, CRS, ABR or SRES?",
+      help: "Only ones you hold today. Tap Skip if you have none." },
+
+    /* ------------------------------------------------------ Your brokerage */
+    { id: "role", section: "brokerage", type: "choice", label: "Role at the brokerage",
+      q: "Which of these describes you?",
+      options: [{ v: "Owns/runs the brokerage", t: "I own or run the brokerage" },
+                { v: "Works under a broker", t: "I work under a broker at a company" },
+                { v: "Not sure", t: "I am not sure" }] },
+    // 35.305(a) and (c): licensed business name and the broker's phone number.
+    { id: "brokerName", section: "brokerage", type: "text", label: "Brokerage licensed name", autocomplete: "organization",
+      q: "What is the brokerage's business name, exactly as printed on its license?",
+      help: "Pennsylvania requires this name on your website, so please copy it carefully." },
+    { id: "brokerPhone", section: "brokerage", type: "text", inputType: "tel", label: "Brokerage office phone", autocomplete: "off",
+      q: "What is the brokerage office's main phone number?",
+      help: "The office's own number, not your cell phone. Pennsylvania requires it on the website, shown as large as your own number." },
+    { id: "brokerOfRecord", section: "brokerage", type: "text", label: "Broker in charge",
+      when: function (a) { return a.role !== "Owns/runs the brokerage"; },
+      q: "What is the name of the broker in charge of your office?",
+      help: "Sometimes called the broker of record." },
+    { id: "brokerContact", section: "brokerage", type: "text", label: "How to reach that broker",
+      when: function (a) { return a.role !== "Owns/runs the brokerage"; },
+      q: "What is the best phone number or email for that broker?",
+      help: "The broker is responsible for your advertising, so they should look at the website before it goes public." },
+    { id: "siteName", section: "brokerage", type: "choice", label: "What the name Wynn Real Estate is",
+      q: "The website is called Wynn Real Estate. What is that name?",
+      help: "Pennsylvania only allows advertising under the name on the brokerage's license, so we need to get this right.",
+      options: [{ v: "The brokerage's licensed name", t: "It is the brokerage's licensed name" },
+                { v: "A team name", t: "It is my team's name" },
+                { v: "A made-up name, not registered", t: "It is a name we made up for the website" },
+                { v: "Not sure", t: "I am not sure" }] },
+    { id: "franchise", section: "brokerage", type: "choice", label: "Part of a national brand",
+      q: "Is the brokerage part of a national brand?",
+      help: "For example RE/MAX, Coldwell Banker, Keller Williams or Berkshire Hathaway.", options: YES_NO },
+    { id: "franchiseName", section: "brokerage", type: "text", label: "Which brand", when: is("franchise", "yes"),
+      q: "Which brand?" },
+    // State Real Estate Commission team advertising guideline (2005).
+    { id: "team", section: "brokerage", type: "choice", label: "Works on a team",
+      q: "Do you work as part of a team?", options: YES_NO },
+    { id: "teamName", section: "brokerage", type: "text", label: "Team name", when: is("team", "yes"),
+      q: "What is the team called?",
+      help: "In Pennsylvania a team name must be the licensed name of someone on the team, like Jane Wynn Team. Made-up names are not allowed." },
+    { id: "teamMembers", section: "brokerage", type: "long", label: "Team members", when: is("team", "yes"),
+      q: "Who is on the team?",
+      help: "Type each licensed member's full name as it appears on their license, one per line. Helpers without a license cannot be shown as team members." },
+    { id: "address", section: "brokerage", type: "long", label: "Office address", autocomplete: "street-address",
+      q: "What office address should the website show?",
+      help: "Street, town and ZIP code." },
+    { id: "hours", section: "brokerage", type: "text", label: "Hours",
+      q: "What hours should the website show?",
+      help: "For example: Monday to Friday 9 to 5, weekends by appointment." },
+
+    /* ------------------------------------------------ How people reach you */
+    { id: "phone", section: "contact", type: "text", inputType: "tel", label: "Agent's public phone", autocomplete: "tel",
+      q: "What phone number should clients use to reach you?" },
+    { id: "textOk", section: "contact", type: "choice", label: "Clients may text that number",
+      q: "Is it all right for clients to text that number?", options: YES_NO },
+    { id: "email", section: "contact", type: "text", inputType: "email", label: "Public email", autocomplete: "email",
+      q: "What email address should the website show?" },
+    { id: "leadsTo", section: "contact", type: "choice", label: "Where website enquiries go",
+      q: "When someone fills in the Request a consultation form on the website, where should it go?",
+      options: [{ v: "Email", t: "Send it to my email" }, { v: "Text", t: "Text it to my phone" },
+                { v: "Email and text", t: "Both" }, { v: "Somewhere else", t: "Somewhere else" }] },
+    { id: "leadsOther", section: "contact", type: "text", label: "Enquiries go to", when: is("leadsTo", "Somewhere else"),
+      q: "Where should those enquiries go?", help: "A person's name, an email address or a phone number." },
+    // NAR Article 12: the site must give a true picture.
+    { id: "reply", section: "contact", type: "choice", label: "Reply within one business day",
+      q: "The website promises a reply within one business day. Can you keep that promise?",
+      options: [{ v: "Yes", t: "Yes, one business day is fine" }, { v: "No, change it", t: "No, it should say something different" }] },
+    { id: "replyOther", section: "contact", type: "text", label: "Reply time should say", when: is("reply", "No, change it"),
+      q: "How quickly do you usually reply?" },
+    { id: "crm", section: "contact", type: "choice", label: "Uses a client-tracking program",
+      q: "Do you use a computer program to keep track of clients?",
+      help: "For example Follow Up Boss, kvCORE, Lofty or Top Producer.", options: YES_NO_UNSURE },
+    { id: "crmName", section: "contact", type: "text", label: "Which program", when: is("crm", "yes"),
+      q: "Which program?" },
+    { id: "social", section: "contact", type: "multi", label: "Has these pages",
+      q: "Which of these do you have for your business?",
+      help: "Tap every one you have. If you have none, just tap Next.",
+      options: [{ v: "Facebook", t: "Facebook page" }, { v: "Instagram", t: "Instagram" }, { v: "LinkedIn", t: "LinkedIn" },
+                { v: "YouTube", t: "YouTube" }, { v: "Zillow", t: "Zillow profile" }, { v: "Google", t: "Google business listing" }] },
+    { id: "socialLinks", section: "contact", type: "long", label: "Page names or links", when: filled("social"),
+      q: "If you know the names or web addresses of those pages, type them here.",
+      help: "Tap Skip if you are not sure. We can look them up." },
+    // NAR 12-12: domain names must give a true picture.
+    { id: "domain", section: "contact", type: "choice", label: "Owns a website address",
+      q: "Do you already own a website address, like wynnrealestate.com?", options: YES_NO_UNSURE },
+    { id: "domainName", section: "contact", type: "text", label: "Website address", when: is("domain", "yes"), inputType: "url", autocapitalize: "none",
+      q: "What is the website address?" },
+    { id: "domainWho", section: "contact", type: "text", label: "Who has the website login", when: is("domain", "yes"),
+      q: "Who has the login for that website address?",
+      help: "Just the person's or company's name. Please do not type any passwords in this form." },
+
+    /* ------------------------------------ Where you work and what you do */
+    { id: "towns", section: "work", type: "long", label: "Towns and neighborhoods",
+      q: "Which towns or neighborhoods do you work in most?",
+      help: "List up to six, your best ones first." },
+    // 35.307(b): a market-position claim must name the municipality.
+    { id: "county", section: "work", type: "text", label: "Main county or region",
+      q: "Which county or region is your main market?" },
+    { id: "services", section: "work", type: "multi", label: "Services",
+      q: "Which of these do you do?",
+      help: "Tap every one that applies, then tap Next.",
+      options: [{ v: "Buyers", t: "Help people buy a home" }, { v: "Sellers", t: "Help people sell a home" },
+                { v: "Luxury", t: "Luxury homes" }, { v: "Investment", t: "Investment and rental properties" },
+                { v: "New construction", t: "New construction" }, { v: "Relocation", t: "Relocation" },
+                { v: "Rentals", t: "Rentals and leasing" }, { v: "Land", t: "Land and farms" },
+                { v: "Commercial", t: "Commercial property" }, { v: "Seniors", t: "Downsizing and estates" }] },
+    // NAR Article 12: every claim on the site must be true.
+    { id: "claims", section: "work", type: "multi", label: "Website claims that are TRUE",
+      q: "The website says the things below. Tap each one that is true for you.",
+      help: "Anything you do not tap will be taken off the website.",
+      options: [{ v: "A third of sales are off-market", t: "About a third of my sales never reach the open market" },
+                { v: "Pro photography and film", t: "I arrange professional photos and video for my listings" },
+                { v: "Refers inspectors, attorneys, lenders", t: "I connect clients with inspectors, attorneys and lenders" },
+                { v: "1031 exchanges", t: "I help with 1031 exchanges" },
+                { v: "Out-of-area relocation", t: "I help clients moving from other states or countries" },
+                { v: "Works with builders", t: "I work with builders and new developments" },
+                { v: "Investment analysis", t: "I prepare investment and cash-flow figures for investors" }] },
+    { id: "afba", section: "work", type: "choice", label: "Paid by or part-owner of a recommended business",
+      q: "Do you get a fee from, or own part of, any lender, title company or other business you recommend?",
+      help: "If so, the website may need to say so.", options: YES_NO_UNSURE },
+
+    /* ---------------------------------------------------- Your track record */
+    { id: "yearLic", section: "record", type: "text", inputmode: "numeric", label: "Year first licensed",
+      q: "What year did you first get your real estate license?" },
+    // 35.307(a): sales volume may only count closed transactions.
+    { id: "homesSold", section: "record", type: "text", label: "Homes sold (closed)",
+      q: "About how many homes have you sold in your career?",
+      help: "Closed sales only. A rough number is fine. Tap Skip if you do not know." },
+    { id: "volume", section: "record", type: "text", label: "Total sales volume",
+      q: "What is your total sales volume in dollars, if you know it?",
+      help: "Pennsylvania only lets closed sales be counted. Tap Skip if you are not sure." },
+    { id: "volumeSource", section: "record", type: "text", label: "Volume: years and source", when: filled("volume"),
+      q: "What years does that number cover, and where does it come from?",
+      help: "For example: 2015 to 2025, from the MLS." },
+    { id: "stats", section: "record", type: "long", label: "Other provable numbers",
+      q: "Do you know your average days on market, or how close to the asking price your homes sell?",
+      help: "Type any numbers you know and where they come from. Tap Skip if you do not know." },
+    { id: "awards", section: "record", type: "long", label: "Awards and rankings",
+      q: "Are there any awards or rankings you would like mentioned?",
+      help: "Include the year, who gave it, and the town or area it covers." },
+
+    /* -------------------------------------------------------- Homes to show */
+    { id: "mls", section: "homes", type: "text", label: "MLS",
+      q: "Which MLS do you belong to?",
+      help: "MLS means multiple listing service. For example Bright MLS or West Penn Multi-List." },
+    { id: "hasListings", section: "homes", type: "choice", label: "Has homes for sale now",
+      q: "Do you have any homes for sale right now?", options: YES_NO },
+    { id: "listings", section: "homes", type: "long", label: "Current listings", when: is("hasListings", "yes"),
+      q: "Which homes?", help: "Type the addresses or MLS numbers, one per line." },
+    // 35.301 and NAR 12-4: no advertising a property without the owner's authority.
+    { id: "sellerOk", section: "homes", type: "choice", label: "Sellers agreed to advertising", when: is("hasListings", "yes"),
+      q: "Have the sellers agreed that you may advertise those homes?",
+      help: "Pennsylvania does not allow a home to be advertised without the seller's permission.",
+      options: [{ v: "Yes, all", t: "Yes, all of them" }, { v: "Some", t: "Some of them" }, { v: "Not sure", t: "I am not sure" }] },
+    { id: "showSold", section: "homes", type: "choice", label: "Show sold homes",
+      q: "Would you like the website to show homes you have already sold?", options: YES_NO },
+    // NAR 12-7: only the listing or cooperating broker may claim a sale.
+    { id: "soldList", section: "homes", type: "long", label: "Sold homes to show", when: is("showSold", "yes"),
+      q: "Which sold homes?",
+      help: "For each one, say whether you worked for the seller or the buyer. Only agents who took part in a sale may say they sold it." },
+    // 35.304 and NAR 12-6: disclose when advertising your own property.
+    { id: "ownProp", section: "homes", type: "choice", label: "Advertising own property",
+      q: "Will any property that you own yourself be advertised on this website?",
+      help: "If so, the ad has to say the owner is a licensed agent.", options: YES_NO },
+    // NAR 12-10: no content or images used without permission.
+    { id: "photos", section: "homes", type: "choice", label: "Who took listing photos",
+      q: "Who took the photos of your listings?",
+      help: "We need to be sure we are allowed to use them.",
+      options: [{ v: "A hired photographer", t: "A photographer I hired" }, { v: "The agent", t: "I took them myself" },
+                { v: "The brokerage", t: "The brokerage arranged them" }, { v: "Not sure", t: "I am not sure" }] },
+
+    /* ----------------------------------------------------------- Your story */
+    { id: "bio", section: "story", type: "long", label: "About",
+      q: "Tell us about yourself in a few sentences.",
+      help: "How long have you been doing this? What do you love about it? You can tap the microphone on your keyboard and just talk." },
+    { id: "why", section: "story", type: "long", label: "Why clients choose them",
+      q: "Why do clients choose you over another agent?" },
+    { id: "tagline", section: "story", type: "choice", label: "Headline",
+      q: "The website's headline is: Where legacy finds its address. Would you like to keep it?",
+      options: [{ v: "Keep it", t: "Yes, I like it" }, { v: "Change it", t: "No, I would like something else" }] },
+    { id: "taglineNew", section: "story", type: "text", label: "New headline idea", when: is("tagline", "Change it"),
+      q: "What would you like it to say instead?",
+      help: "Tap Skip if you would like us to suggest some." },
+    { id: "languages", section: "story", type: "text", label: "Languages besides English",
+      q: "Do you speak any languages besides English with clients?",
+      help: "Tap Skip if English only." },
+    { id: "hasQuotes", section: "story", type: "choice", label: "Has client testimonials",
+      q: "Do you have kind words from past clients that we could show?", options: YES_NO },
+    { id: "quotes", section: "story", type: "long", label: "Testimonials", when: is("hasQuotes", "yes"),
+      q: "Please type one or two of them.",
+      help: "Include the client's first name and town if you can. Or tell us where to find them, such as Zillow or Google." },
+    { id: "quotesOk", section: "story", type: "choice", label: "Clients agreed to be quoted", when: is("hasQuotes", "yes"),
+      q: "Have those clients said it is all right to put their words on your website?",
+      options: [{ v: "Yes", t: "Yes" }, { v: "Not yet", t: "Not yet" }] },
+
+    /* ------------------------------------------------ Photos and last things */
+    { id: "headshot", section: "wrap", type: "choice", label: "Has a professional photo",
+      q: "Do you have a professional photo of yourself?", options: YES_NO },
+    { id: "logo", section: "wrap", type: "choice", label: "Logo",
+      q: "Do you have a logo?",
+      options: [{ v: "Own logo", t: "Yes, I have my own" }, { v: "The brokerage has one", t: "The brokerage has one" }, { v: "None", t: "No" }] },
+    { id: "legal", section: "wrap", type: "choice", label: "Brokerage has required website wording",
+      q: "Does your brokerage have a privacy policy or other wording it requires on websites?",
+      help: "If you are not sure, we will ask the broker.", options: YES_NO_UNSURE },
+    { id: "more", section: "wrap", type: "long", label: "Anything else",
+      q: "Is there anything else you would like the website to say or do?",
+      help: "Tap Skip if not." },
+    { id: "reach", section: "wrap", type: "choice", label: "Best way to follow up",
+      q: "If we have a question, what is the best way to reach you?",
+      options: [{ v: "Call", t: "Call me" }, { v: "Text", t: "Text me" }, { v: "Email", t: "Email me" }] }
+  ];
+
+  /* ------------------------------------------------------------------ State */
+
+  var state = { answers: {}, view: "welcome", at: null, big: false, fromReview: false };
+
+  function load() {
+    try {
+      var saved = JSON.parse(window.localStorage.getItem(STORE) || "null");
+      if (saved && typeof saved === "object" && saved.answers) {
+        state.answers = saved.answers;
+        state.at = saved.at || null;
+        state.big = !!saved.big;
+      }
+    } catch (error) { /* storage unavailable: the form still works for this visit */ }
+  }
+
+  function save() {
+    try {
+      window.localStorage.setItem(STORE, JSON.stringify({ answers: state.answers, at: state.at, big: state.big }));
+    } catch (error) { /* ignore */ }
+  }
+
+  function hasAnswer(id) { return filled(id)(state.answers); }
+  function visible() { return QUESTIONS.filter(function (q) { return !q.when || q.when(state.answers); }); }
+  function byId(id) {
+    for (var i = 0; i < QUESTIONS.length; i += 1) if (QUESTIONS[i].id === id) return QUESTIONS[i];
+    return null;
+  }
+  function answeredCount() { return visible().filter(function (q) { return hasAnswer(q.id); }).length; }
+
+  function optionText(q, value, short) {
+    for (var i = 0; i < q.options.length; i += 1) {
+      if (q.options[i].v === value) return short ? (q.options[i].s || q.options[i].v) : q.options[i].t;
+    }
+    return value;
+  }
+
+  /** The answer as plain words, for the review screen and the message. */
+  function valueText(q) {
+    var value = state.answers[q.id];
+    if (q.type === "multi") return value.join("; ");
+    if (q.type === "choice") {
+      if (value === "yes") return "Yes";
+      if (value === "no") return "No";
+      if (value === "unsure") return "Not sure";
+      return optionText(q, value, true);
+    }
+    return String(value).trim();
+  }
+
+  function buildSummary() {
+    var lines = ["WYNN WEBSITE ANSWERS"];
+    var blank = [];
+    var shown = visible();
+    SECTIONS.forEach(function (section) {
+      var got = [];
+      shown.forEach(function (q) {
+        if (q.section !== section.id) return;
+        if (hasAnswer(q.id)) got.push(q.label + ": " + valueText(q));
+        else blank.push(q.label);
+      });
+      if (got.length) {
+        lines.push("", "== " + section.title.toUpperCase() + " ==");
+        lines = lines.concat(got);
+      }
+    });
+    if (blank.length) lines.push("", "LEFT BLANK: " + blank.join("; "));
+    return lines.join("\n");
+  }
+
+  /** Who the finished answers go to, if the link was shared with #number or #email. */
+  function recipient() {
+    var raw = "";
+    try { raw = decodeURIComponent((window.location.hash || "").replace(/^#/, "")); } catch (error) { raw = ""; }
+    raw = raw.replace(/^to=/i, "").trim();
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) return { email: raw };
+    var digits = raw.replace(/[^\d+]/g, "");
+    if (/^\+?\d{10,15}$/.test(digits)) return { phone: digits };
+    return {};
+  }
+
+  /* -------------------------------------------------------------- Rendering */
+
+  var app = document.getElementById("app");
+
+  function el(tag, props, children) {
+    var node = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (key) {
+        var value = props[key];
+        if (value === undefined || value === null || value === false) return;
+        if (key === "text") node.textContent = value;
+        else if (key === "onclick") node.addEventListener("click", value);
+        else if (key === "class") node.className = value;
+        else node.setAttribute(key, value === true ? "" : value);
+      });
+    }
+    (children || []).forEach(function (child) { if (child) node.appendChild(child); });
+    return node;
+  }
+
+  function show(nodes) {
+    while (app.firstChild) app.removeChild(app.firstChild);
+    nodes.forEach(function (node) { if (node) app.appendChild(node); });
+    window.scrollTo(0, 0);
+    var heading = app.querySelector("h1");
+    if (heading) { heading.setAttribute("tabindex", "-1"); heading.focus(); }
+    stopSpeaking();
+  }
+
+  function render() {
+    if (state.view === "question") renderQuestion();
+    else if (state.view === "sections") renderSections();
+    else if (state.view === "review") renderReview();
+    else if (state.view === "send") renderSend();
+    else renderWelcome();
+  }
+
+  function goTo(view, id) {
+    state.view = view;
+    if (id) state.at = id;
+    save();
+    render();
+  }
+
+  /* Read-aloud, where the phone supports it. */
+  var canSpeak = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  function stopSpeaking() { if (canSpeak) { try { window.speechSynthesis.cancel(); } catch (error) { /* ignore */ } } }
+  function speak(text) {
+    if (!canSpeak) return;
+    stopSpeaking();
+    try {
+      var utterance = new window.SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    } catch (error) { /* ignore */ }
+  }
+
+  /* ---------------------------------------------------------------- Welcome */
+
+  function renderWelcome() {
+    var done = answeredCount();
+    var nodes = [
+      el("h1", { text: done ? "Welcome back" : "A few questions for your new website" }),
+      done
+        ? el("p", { text: "You have answered " + done + " so far. Everything is still here." })
+        : el("p", { text: "Your answers tell us what to put on the Wynn Real Estate website, and help us follow Pennsylvania's advertising rules." }),
+      el("ul", { class: "plainlist" }, [
+        el("li", { text: "One question at a time. Tap an answer, or type it." }),
+        el("li", { text: "Not sure about one? Tap Skip." }),
+        el("li", { text: "It saves by itself. You can stop and come back later." }),
+        el("li", { text: "Nothing is sent until you press Send at the end." })
+      ]),
+      el("p", { class: "small", text: "It takes about 15 minutes. Having your license nearby will help." }),
+      el("button", {
+        type: "button", class: "btn", text: done ? "Carry on" : "Start",
+        onclick: function () {
+          var list = visible();
+          var resume = state.at && byId(state.at) ? state.at : list[0].id;
+          state.fromReview = false;
+          goTo("question", resume);
+        }
+      })
+    ];
+    if (done) {
+      nodes.push(el("button", { type: "button", class: "btn plain", text: "See all sections", onclick: function () { goTo("sections"); } }));
+      nodes.push(startOverButton());
+    }
+    show(nodes);
+  }
+
+  function startOverButton() {
+    var armed = false;
+    var button = el("button", { type: "button", class: "link", text: "Erase my answers and start again" });
+    button.addEventListener("click", function () {
+      if (!armed) {
+        armed = true;
+        button.textContent = "Tap again to erase everything";
+        window.setTimeout(function () { armed = false; button.textContent = "Erase my answers and start again"; }, 6000);
+        return;
+      }
+      state.answers = {};
+      state.at = null;
+      save();
+      goTo("welcome");
+    });
+    return el("p", null, [button]);
+  }
+
+  /* --------------------------------------------------------------- Question */
+
+  function renderQuestion() {
+    var list = visible();
+    var index = -1;
+    for (var i = 0; i < list.length; i += 1) if (list[i].id === state.at) index = i;
+    if (index < 0) { index = 0; state.at = list[0].id; }
+    var q = list[index];
+    var section = SECTIONS.filter(function (s) { return s.id === q.section; })[0];
+    var helpId = "help-" + q.id;
+
+    function next() {
+      if (state.fromReview) { state.fromReview = false; goTo("review"); return; }
+      var fresh = visible();
+      var position = -1;
+      for (var j = 0; j < fresh.length; j += 1) if (fresh[j].id === q.id) position = j;
+      if (position + 1 < fresh.length) goTo("question", fresh[position + 1].id);
+      else goTo("review");
+    }
+    function back() {
+      state.fromReview = false;
+      if (index === 0) goTo("welcome");
+      else goTo("question", list[index - 1].id);
+    }
+
+    var bar = el("div", { class: "bar", "aria-hidden": "true" }, [el("span")]);
+    bar.firstChild.style.width = Math.round(((index + 1) / list.length) * 100) + "%";
+
+    var where = el("p", { class: "where" });
+    where.appendChild(el("b", { text: section.title }));
+    where.appendChild(document.createTextNode("  ·  Question " + (index + 1) + " of " + list.length));
+
+    var heading = el("h1", { id: "question", text: q.q });
+    var help = q.help ? el("p", { class: "help", id: helpId, text: q.help }) : null;
+
+    var body;
+    if (q.type === "choice" || q.type === "multi") {
+      body = el("div", { role: "group", "aria-labelledby": "question" });
+      q.options.forEach(function (option) {
+        var selected = q.type === "multi"
+          ? (state.answers[q.id] || []).indexOf(option.v) >= 0
+          : state.answers[q.id] === option.v;
+        var button = el("button", {
+          type: "button", class: q.type === "multi" ? "opt multi" : "opt",
+          "aria-pressed": selected ? "true" : "false", text: option.t
+        });
+        button.addEventListener("click", function () {
+          if (q.type === "multi") {
+            var current = (state.answers[q.id] || []).slice();
+            var at = current.indexOf(option.v);
+            if (at >= 0) current.splice(at, 1); else current.push(option.v);
+            state.answers[q.id] = current;
+            button.setAttribute("aria-pressed", at >= 0 ? "false" : "true");
+            save();
+          } else {
+            state.answers[q.id] = option.v;
+            save();
+            var all = body.querySelectorAll(".opt");
+            for (var k = 0; k < all.length; k += 1) all[k].setAttribute("aria-pressed", "false");
+            button.setAttribute("aria-pressed", "true");
+            // A short pause so the tap visibly registers before moving on.
+            window.setTimeout(next, 350);
+          }
+        });
+        body.appendChild(button);
+      });
+    } else {
+      var input;
+      if (q.type === "long") {
+        input = el("textarea", { class: "txt", id: "answer", rows: "5" });
+      } else {
+        input = el("input", { class: "txt", id: "answer", type: q.inputType || "text", enterkeyhint: "next" });
+        input.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") { event.preventDefault(); next(); }
+        });
+      }
+      input.setAttribute("aria-labelledby", "question");
+      if (help) input.setAttribute("aria-describedby", helpId);
+      if (q.autocomplete) input.setAttribute("autocomplete", q.autocomplete);
+      if (q.inputmode) input.setAttribute("inputmode", q.inputmode);
+      if (q.autocapitalize) input.setAttribute("autocapitalize", q.autocapitalize);
+      input.value = state.answers[q.id] || "";
+      input.addEventListener("input", function () { state.answers[q.id] = input.value; save(); });
+      body = el("div", null, [input]);
+    }
+
+    var nextLabel = state.fromReview ? "Save and go back" : (index + 1 === list.length ? "Finish" : "Next");
+    var nodes = [
+      where, bar, heading, help, body,
+      el("button", { type: "button", class: "btn", text: nextLabel, onclick: next }),
+      el("div", { class: "pair" }, [
+        el("button", { type: "button", class: "btn plain", text: "Back", onclick: back }),
+        el("button", { type: "button", class: "btn plain", text: "Skip", onclick: next })
+      ]),
+      el("div", { class: "tools" }, [
+        canSpeak ? el("button", { type: "button", class: "link", text: "Read it to me", onclick: function () { speak(q.q + ". " + (q.help || "")); } }) : el("span"),
+        el("button", { type: "button", class: "link", text: "All sections", onclick: function () { state.fromReview = false; goTo("sections"); } })
+      ])
+    ];
+    show(nodes);
+  }
+
+  /* --------------------------------------------------------------- Sections */
+
+  function renderSections() {
+    var list = visible();
+    var nodes = [
+      el("h1", { text: "All sections" }),
+      el("p", { text: "Tap a section to go to it. You do not have to do them in order." })
+    ];
+    SECTIONS.forEach(function (section) {
+      var questions = list.filter(function (q) { return q.section === section.id; });
+      if (!questions.length) return;
+      var done = questions.filter(function (q) { return hasAnswer(q.id); }).length;
+      var button = el("button", { type: "button", class: "sec" });
+      button.appendChild(document.createTextNode(section.title));
+      button.appendChild(el("span", { text: done + " of " + questions.length + " answered" }));
+      button.addEventListener("click", function () {
+        var firstBlank = questions.filter(function (q) { return !hasAnswer(q.id); })[0] || questions[0];
+        state.fromReview = false;
+        goTo("question", firstBlank.id);
+      });
+      nodes.push(button);
+    });
+    nodes.push(el("button", { type: "button", class: "btn", text: "Check my answers and send", onclick: function () { goTo("review"); } }));
+    nodes.push(startOverButton());
+    show(nodes);
+  }
+
+  /* ----------------------------------------------------------------- Review */
+
+  function renderReview() {
+    var list = visible();
+    var done = answeredCount();
+    var nodes = [
+      el("h1", { text: "Check your answers" }),
+      el("p", { text: "You answered " + done + " of " + list.length + " questions. Blank ones are fine. We will ask about those later." })
+    ];
+    SECTIONS.forEach(function (section) {
+      var questions = list.filter(function (q) { return q.section === section.id && hasAnswer(q.id); });
+      if (!questions.length) return;
+      var dl = el("dl", { class: "answers" });
+      questions.forEach(function (q) {
+        dl.appendChild(el("dt", { text: q.q }));
+        var dd = el("dd");
+        dd.appendChild(document.createTextNode(q.type === "choice" ? optionText(q, state.answers[q.id], false) : valueText(q)));
+        dd.appendChild(el("br"));
+        dd.appendChild(el("button", {
+          type: "button", class: "link", text: "Change",
+          "aria-label": "Change answer: " + q.label,
+          onclick: function () { state.fromReview = true; goTo("question", q.id); }
+        }));
+        dl.appendChild(dd);
+      });
+      nodes.push(el("h2", { text: section.title }));
+      nodes.push(el("div", { class: "card" }, [dl]));
+    });
+    nodes.push(el("button", { type: "button", class: "btn", text: "These are right. Go to Send", onclick: function () { goTo("send"); } }));
+    nodes.push(el("button", { type: "button", class: "btn plain", text: "Answer more questions", onclick: function () { goTo("sections"); } }));
+    show(nodes);
+  }
+
+  /* ------------------------------------------------------------------- Send */
+
+  function renderSend() {
+    var summary = buildSummary();
+    var to = recipient();
+    var encoded = encodeURIComponent(summary);
+    // "?&body=" is the one spelling that both iPhone and Android accept.
+    var smsHref = "sms:" + (to.phone || "") + "?&body=" + encoded;
+    var mailHref = "mailto:" + (to.email || "") + "?subject=" + encodeURIComponent("Wynn website answers") + "&body=" + encoded;
+
+    var status = el("p", { class: "note", role: "status", hidden: true });
+    function opened(kind) {
+      status.hidden = false;
+      status.textContent = "Your " + kind + " should now be open with your answers already typed in. Press its Send button to finish. If nothing opened, tap Copy my answers below.";
+    }
+
+    var out = el("textarea", { class: "txt out", id: "allAnswers", readonly: true, "aria-label": "All of your answers" });
+    out.value = summary;
+
+    function copy() {
+      function ok() { status.hidden = false; status.textContent = "Copied. Now open a text or an email, press and hold in the message box, and choose Paste."; }
+      function manual() {
+        out.focus(); out.select();
+        var worked = false;
+        try { worked = document.execCommand("copy"); } catch (error) { worked = false; }
+        if (worked) ok();
+        else { status.hidden = false; status.textContent = "Press and hold on the box of answers below, choose Select All, then Copy."; }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(summary).then(ok, manual);
+      else manual();
+    }
+
+    var textButton = el("a", { class: "btn", href: smsHref, text: "Text my answers", onclick: function () { opened("text message"); } });
+    var mailButton = el("a", { class: to.email && !to.phone ? "btn" : "btn plain", href: mailHref, text: "Email my answers", onclick: function () { opened("email"); } });
+    if (to.email && !to.phone) textButton.className = "btn plain";
+
+    var destination;
+    if (to.phone) destination = "It will be addressed to " + to.phone + ".";
+    else if (to.email) destination = "It will be addressed to " + to.email + ".";
+    else destination = "In the To box, choose the person who sent you this form.";
+
+    var photos = [];
+    if (state.answers.headshot === "yes") photos.push("Your photo of yourself");
+    if (state.answers.logo === "Own logo") photos.push("Your logo");
+    if (state.answers.hasListings === "yes") photos.push("Photos of the homes you have for sale");
+
+    var nodes = [
+      el("h1", { text: "Last step: send your answers" }),
+      el("p", { text: "Tap the red button. Your phone will open a message with all your answers already typed in. Then press Send." }),
+      el("p", { class: "small", text: destination }),
+      to.email && !to.phone ? mailButton : textButton,
+      to.email && !to.phone ? textButton : mailButton,
+      el("button", { type: "button", class: "btn plain", text: "Copy my answers", onclick: copy }),
+      status
+    ];
+    if (photos.length) {
+      var listNode = el("ul", { class: "plainlist" });
+      photos.forEach(function (item) { listNode.appendChild(el("li", { text: item })); });
+      nodes.push(el("h2", { text: "Then please send these photos" }));
+      nodes.push(el("p", { text: "Text or email them to the same person, whenever it suits you." }));
+      nodes.push(listNode);
+    }
+    nodes.push(el("h2", { text: "Your answers" }));
+    nodes.push(out);
+    nodes.push(el("button", { type: "button", class: "btn plain", text: "Go back and change something", onclick: function () { goTo("review"); } }));
+    nodes.push(el("p", { class: "small", text: "Thank you. Your answers stay saved on this phone, so you can come back and send them again." }));
+    show(nodes);
+  }
+
+  /* ------------------------------------------------------------------ Start */
+
+  var sizeButton = document.getElementById("sizeBtn");
+  function applySize() {
+    document.documentElement.className = state.big ? "big" : "";
+    sizeButton.setAttribute("aria-pressed", state.big ? "true" : "false");
+    sizeButton.textContent = state.big ? "Smaller text" : "Bigger text";
+  }
+  sizeButton.addEventListener("click", function () { state.big = !state.big; applySize(); save(); });
+
+  load();
+  applySize();
+  render();
+})();
+</script>
+</body>
+</html>
