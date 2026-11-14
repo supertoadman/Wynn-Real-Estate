@@ -6,7 +6,7 @@ import { useListings } from "@/components/listings";
 import { Icon, MagneticButton, SectionHeading } from "@/components/ui";
 import { EASE, fadeUp, inView } from "@/lib/animations";
 import { formatStreetAddress } from "@/lib/formatters";
-import { siteConfig } from "@/lib/site";
+import { isStaticExport, siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { LEAD_INTENTS, LEAD_TIMELINES, validateLead } from "@/lib/validation";
 import type {
@@ -67,6 +67,16 @@ export function ContactCTA() {
     }
 
     setErrors({});
+
+    if (isStaticExport) {
+      // Nothing can receive the enquiry here, so say so rather than fail vaguely.
+      setServerMessage(
+        "This preview of the site isn't connected to an inbox yet, so your enquiry was not sent.",
+      );
+      setStatus("error");
+      return;
+    }
+
     setStatus("submitting");
 
     try {
@@ -470,11 +480,12 @@ function ContactLine({
   children: ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex min-w-0 items-start gap-4">
       <span className="grid size-11 shrink-0 place-items-center rounded-full border border-ink/15 text-lg text-crimson">
         {icon}
       </span>
-      <div>
+      {/* min-w-0 lets a long email wrap instead of widening the page. */}
+      <div className="min-w-0">
         <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink/50">{label}</p>
         <p className="mt-1 font-display text-lg font-semibold tracking-[-0.02em]">{children}</p>
       </div>

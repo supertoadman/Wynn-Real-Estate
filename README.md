@@ -57,6 +57,23 @@ src/
 - **New homepage section** — add a component under `components/sections/` and place it in `src/app/page.tsx`.
 - **Client portal / saved homes** — add providers in `components/layout/Providers.tsx`.
 
+## Deploying
+
+### GitHub Pages (preview)
+
+Every push to `main` runs `.github/workflows/deploy-pages.yml`, which publishes the site to <https://supertoadman.github.io/Wynn-Real-Estate/>. One-time setup: in the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
+
+GitHub Pages only serves files, so that workflow builds a static export (`NEXT_PUBLIC_STATIC_EXPORT=true`), which differs from the normal build:
+
+- **No lead endpoint.** `src/app/api` is removed before the build, and the consultation form tells visitors it isn't connected instead of sending.
+- **No Cache Components.** Next can't combine them with a static export, so `next.config.ts` enables only the `"use cache"` directive through the deprecated `experimental.useCache` flag. Re-check this when upgrading Next.
+- **Photos are sized by the photo CDN** through `src/lib/image-loader.ts`, because Next's image optimizer needs a server.
+- **Hidden from search engines** (`noindex`, set in `src/app/layout.tsx`) while the content is placeholder.
+
+### A Node host
+
+For the full site, including `POST /api/leads`, deploy the normal build (`npm run build`, then `npm start`) to any host that runs Next.js, and set the variables from `.env.example`.
+
 ## Before launch
 
 Everything below is **placeholder content** and must be replaced:

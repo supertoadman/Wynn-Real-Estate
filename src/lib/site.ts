@@ -28,3 +28,9 @@ export const siteConfig = {
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+/**
+ * True in the GitHub Pages build: a static export with no server behind it,
+ * so `/api/leads` does not exist there.
+ */
+export const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";

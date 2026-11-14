@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Footer, Navbar, Providers } from "@/components/layout";
 import { PropertyQuickViewModal } from "@/components/listings";
 import { Cursor } from "@/components/ui";
-import { siteConfig } from "@/lib/site";
+import { isStaticExport, siteConfig } from "@/lib/site";
 import "./globals.css";
 
 // Display: architectural, wide-set grotesque for headlines and figures.
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  // The GitHub Pages build shows placeholder listings and figures, so keep it
+  // out of search results. Remove this once the content is real.
+  ...(isStaticExport && { robots: { index: false, follow: false } }),
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
