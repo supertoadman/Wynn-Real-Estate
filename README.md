@@ -78,7 +78,7 @@ For the full site, including `POST /api/leads`, deploy the normal build (`npm ru
 
 `public/intake/index.html` is a self-contained questionnaire for the agent, served at <https://supertoadman.github.io/Wynn-Real-Estate/intake/>. It collects everything listed under "Before launch" plus what Pennsylvania's advertising rules (49 Pa. Code §§ 35.301–35.307, the Commission's team-advertising guideline) and NAR Article 12 require the site to show. Answers stay in the visitor's browser; the last screen puts them into a ready-written text or email.
 
-To have that message addressed automatically, add the recipient after a `#` when sharing the link: `…/intake/#2155550123` or `…/intake/#you@example.com`. The value is read in the browser only and is never part of this repository.
+That message is addressed to the phone number and email set as `SEND_TO_PHONE` and `SEND_TO_EMAIL` at the top of the page's script. To send one person's answers somewhere else, add the recipient after a `#` when sharing the link: `…/intake/#2155550123` or `…/intake/#you@example.com`.
 
 ## Before launch
 

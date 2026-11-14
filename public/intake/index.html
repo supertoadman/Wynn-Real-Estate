@@ -12,8 +12,9 @@
   instantly from a text message on any phone. Answers are kept in the
   browser only; the last screen puts them into a ready-written text or email.
 
-  To have that message addressed automatically, add the recipient after a #
-  when sharing the link:  .../intake/#2155550123  or  .../intake/#you@example.com
+  That message is addressed to SEND_TO_PHONE / SEND_TO_EMAIL (set in the script
+  below). To send one person's answers somewhere else, add the recipient after
+  a # when sharing the link:  .../intake/#2155550123  or  .../intake/#you@example.com
 -->
 <style>
   html { font-size: 20px; -webkit-text-size-adjust: 100%; color-scheme: light; }
@@ -141,6 +142,10 @@
   "use strict";
 
   var STORE = "wynn-intake-v1";
+
+  // Where finished answers are sent. A #number or #email on the link overrides these.
+  var SEND_TO_PHONE = "+12159393713";
+  var SEND_TO_EMAIL = "stevenwynn4@gmail.com";
 
   var SECTIONS = [
     { id: "you", title: "About you" },
@@ -489,15 +494,22 @@
     return lines.join("\n");
   }
 
-  /** Who the finished answers go to, if the link was shared with #number or #email. */
+  /** Who the finished answers go to: the defaults above, unless the link carries #number or #email. */
   function recipient() {
+    var to = { phone: SEND_TO_PHONE, email: SEND_TO_EMAIL };
     var raw = "";
     try { raw = decodeURIComponent((window.location.hash || "").replace(/^#/, "")); } catch (error) { raw = ""; }
     raw = raw.replace(/^to=/i, "").trim();
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) return { email: raw };
     var digits = raw.replace(/[^\d+]/g, "");
-    if (/^\+?\d{10,15}$/.test(digits)) return { phone: digits };
-    return {};
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) to.email = raw;
+    else if (/^\+?\d{10,15}$/.test(digits)) to.phone = digits;
+    return to;
+  }
+
+  /** +12159393713 -> 215-939-3713, for showing the number to the person filling in the form. */
+  function prettyPhone(phone) {
+    var match = /^(?:\+?1)?(\d{3})(\d{3})(\d{4})$/.exec(phone);
+    return match ? match[1] + "-" + match[2] + "-" + match[3] : phone;
   }
 
   /* -------------------------------------------------------------- Rendering */
@@ -806,10 +818,10 @@
     var mailButton = el("a", { class: to.email && !to.phone ? "btn" : "btn plain", href: mailHref, text: "Email my answers", onclick: function () { opened("email"); } });
     if (to.email && !to.phone) textButton.className = "btn plain";
 
-    var destination;
-    if (to.phone) destination = "It will be addressed to " + to.phone + ".";
-    else if (to.email) destination = "It will be addressed to " + to.email + ".";
-    else destination = "In the To box, choose the person who sent you this form.";
+    var destination = "";
+    if (to.phone) destination += "The text goes to " + prettyPhone(to.phone) + ". ";
+    if (to.email) destination += "The email goes to " + to.email + ".";
+    if (!destination) destination = "In the To box, choose the person who sent you this form.";
 
     var photos = [];
     if (state.answers.headshot === "yes") photos.push("Your photo of yourself");
