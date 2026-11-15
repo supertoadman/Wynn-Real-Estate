@@ -76,9 +76,11 @@ For the full site, including `POST /api/leads`, deploy the normal build (`npm ru
 
 ## Client intake form
 
-`public/intake/index.html` is a self-contained questionnaire for the agent, served at <https://supertoadman.github.io/Wynn-Real-Estate/intake/>. It collects everything listed under "Before launch" plus what Pennsylvania's advertising rules (49 Pa. Code §§ 35.301–35.307, the Commission's team-advertising guideline) and NAR Article 12 require the site to show. Answers stay in the visitor's browser; the last screen puts them into a ready-written text or email.
+`public/intake/index.html` is a self-contained questionnaire for the agent, served at <https://supertoadman.github.io/Wynn-Real-Estate/intake/>. It collects everything listed under "Before launch" plus what Pennsylvania's advertising rules (49 Pa. Code §§ 35.301–35.307, the Commission's team-advertising guideline) and NAR Article 12 require the site to show. Typing is limited to facts only the agent knows; everything else is a tap.
 
-That message is addressed to the phone number and email set as `SEND_TO_PHONE` and `SEND_TO_EMAIL` at the top of the page's script. To send one person's answers somewhere else, add the recipient after a `#` when sharing the link: `…/intake/#2155550123` or `…/intake/#you@example.com`.
+Answers stay in the visitor's browser until the last screen, where "Send my answers" posts them to [FormSubmit](https://formsubmit.co), a third-party relay that emails them to `SEND_TO_EMAIL` (set, with `SEND_TO_PHONE`, at the top of the page's script). FormSubmit emails that address an activation link the first time a site submits; nothing is delivered until it is clicked. If a send fails, the screen offers a ready-written text or email instead.
+
+To send one person's answers somewhere else, add the recipient after a `#` when sharing the link: `…/intake/#2155550123` or `…/intake/#you@example.com`.
 
 ## Before launch
 
