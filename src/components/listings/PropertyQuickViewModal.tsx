@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Icon, MagneticButton } from "@/components/ui";
+import { SAMPLE_DATA } from "@/data/sample";
 import { MEDIA, useMediaQuery, useScrollLock, useSectionScroll } from "@/hooks";
 import { EASE, SPRING, wipe } from "@/lib/animations";
 import {
@@ -225,7 +226,7 @@ function QuickViewPanel({
         >
           <header>
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">
-              Listing {property.listingId}
+              {SAMPLE_DATA ? "Sample listing" : "Listing"} {property.listingId}
             </p>
             <h2
               id="quick-view-title"

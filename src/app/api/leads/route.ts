@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/site";
 import { validateLead } from "@/lib/validation";
 import type { LeadSubmissionResult } from "@/types";
 
-const THANKS = "Thank you. A senior advisor will be in touch within one business day.";
+const THANKS = "Thank you. We will be in touch within one business day.";
 
 function json(body: LeadSubmissionResult, status = 200) {
   return Response.json(body, { status });

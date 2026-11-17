@@ -1,78 +1,77 @@
-import type { BrokerageMetric, NavItem, ServicePillar } from "@/types";
+import { siteConfig } from "@/lib/site";
+import type { BrokerageFact, NavItem, ServicePillar } from "@/types";
 import { stockPhoto } from "./media";
 
 export const primaryNav: NavItem[] = [
   {
-    label: "Residences",
+    label: "Listings",
     href: "/#listings",
-    description: "The current portfolio",
+    description: "Homes for sale",
   },
   {
     label: "Neighborhoods",
     href: "/#neighborhoods",
-    description: "Live market intelligence",
+    description: "The areas we work in",
   },
   {
-    label: "The Firm",
+    label: "About",
     href: "/#about",
-    description: "How we represent you",
+    description: "Who we are and how we work",
   },
   {
     label: "Contact",
     href: "/#contact",
-    description: "Begin a private conversation",
+    description: "Start a conversation",
   },
 ];
 
 /**
- * PLACEHOLDER FIGURES — replace with the brokerage's audited numbers before
- * launch. Performance claims in real-estate advertising must be verifiable.
+ * Credentials the broker confirmed. Pennsylvania only allows closed sales to
+ * be advertised (49 Pa. Code § 35.307), and she chose to show years of
+ * experience only, so no sales figures appear here.
  */
-export const brokerageMetrics: BrokerageMetric[] = [
+export const brokerageFacts: BrokerageFact[] = [
   {
-    id: "volume",
-    label: "Sales volume",
-    description: "Closed residential and investment transactions to date.",
-    value: 2.4,
-    decimals: 1,
-    prefix: "$",
-    suffix: "B",
+    id: "experience",
+    label: "Experience",
+    value: 20,
+    suffix: "+",
+    description: `Years ${siteConfig.broker.name} has held a real estate license.`,
   },
   {
-    id: "days",
-    label: "Avg. days on market",
-    description: "From launch to accepted offer across Wynn listings.",
-    value: 21,
+    id: "license",
+    label: "License",
+    text: "Broker",
+    description: `${siteConfig.broker.licenseState} license ${siteConfig.broker.licenseNumber}.`,
   },
   {
-    id: "ratio",
-    label: "Sale-to-list price",
-    description: "Average closing price relative to asking.",
-    value: 103,
-    suffix: "%",
+    id: "realtor",
+    label: "Membership",
+    text: "REALTOR®",
+    description: "Member of the National Association of REALTORS®.",
   },
   {
-    id: "satisfaction",
-    label: "Client satisfaction",
-    description: "Clients who return or refer within five years.",
-    value: 98,
-    suffix: "%",
+    id: "mls",
+    label: "Listing service",
+    text: "Bright MLS",
+    description: "Listings are shared through the region's multiple listing service.",
   },
 ];
 
+/** Copy is limited to services and claims the broker confirmed in her intake answers. */
 export const servicePillars: ServicePillar[] = [
   {
     intent: "buy",
     title: "Buy",
-    summary: "Access before the market",
+    summary: "The right home, without the guesswork",
     description:
-      "A third of what we sell never reaches the open market. We source quietly, benchmark every offer against live comparables, and negotiate as though the capital were our own.",
+      "First homes, bigger homes, new construction and moves from out of the area. We know these neighborhoods, and we tell you what we really think of a house before you commit to it.",
     points: [
-      "Private and pre-market inventory",
-      "Valuation brief on every shortlist home",
-      "Inspection, legal and lending concierge",
+      "New construction and work with builders",
+      "Help for buyers moving here from elsewhere",
+      "Introductions to inspectors, attorneys and lenders",
     ],
-    cta: { label: "Start your search", href: "/#listings" },
+    cta: { label: "Start your search", href: "/#contact" },
     image: {
       url: stockPhoto("1613977257363-707ba9348227"),
       alt: "White contemporary villa with pool",
@@ -81,15 +80,15 @@ export const servicePillars: ServicePillar[] = [
   {
     intent: "sell",
     title: "Sell",
-    summary: "Marketing that moves markets",
+    summary: "Priced honestly, negotiated hard",
     description:
-      "Editorial photography, cinematic film and a launch plan built around the few hundred buyers who can actually act. Positioned precisely, a home doesn't linger — it competes.",
+      "A straight opinion on price, a listing on Bright MLS, and a tough negotiator on your side of the table until the day you close.",
     points: [
-      "Pricing strategy from sold, not listed, data",
-      "Film, editorial and global syndication",
-      "Private previews for qualified buyers",
+      "Honest advice on price and preparation",
+      "Your home listed on Bright MLS",
+      "Patient help with downsizing and retirement moves",
     ],
-    cta: { label: "Request a valuation", href: "/#contact" },
+    cta: { label: "Talk about selling", href: "/#contact" },
     image: {
       url: stockPhoto("1600047509358-9dc75507daeb"),
       alt: "Modern residence with timber detailing",
@@ -98,15 +97,15 @@ export const servicePillars: ServicePillar[] = [
   {
     intent: "invest",
     title: "Invest",
-    summary: "Portfolios built to compound",
+    summary: "Property that has to earn its keep",
     description:
-      "From boutique multi-family to development sites, we underwrite every opportunity on yield, risk and exit — then manage the acquisition end to end.",
+      "Rentals, commercial property and land, looked at as investments first: what it costs, what it earns, and what it is worth when you sell.",
     points: [
-      "Underwriting and cash-flow modelling",
-      "Off-market income properties",
-      "1031 exchange and entity coordination",
+      "Investment and cash-flow figures prepared for you",
+      "Help with 1031 exchanges",
+      "Rentals, commercial property and land",
     ],
-    cta: { label: "Discuss your portfolio", href: "/#contact" },
+    cta: { label: "Discuss an investment", href: "/#contact" },
     image: {
       url: stockPhoto("1486406146926-c627a92ad1ab"),
       alt: "Glass towers seen from street level",
@@ -115,10 +114,12 @@ export const servicePillars: ServicePillar[] = [
 ];
 
 export const marqueePhrases = [
-  "Private sales",
-  "Estate advisory",
-  "New development",
-  "Investment portfolios",
-  "Global relocation",
-  "Off-market access",
+  "Buying",
+  "Selling",
+  "Rentals",
+  "Investment property",
+  "New construction",
+  "Commercial",
+  "Land",
+  "1031 exchanges",
 ];

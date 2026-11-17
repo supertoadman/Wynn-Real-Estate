@@ -8,23 +8,26 @@ import { AnimatedNumber, Icon, MagneticButton, SectionHeading } from "@/componen
 import { fadeUp, inView } from "@/lib/animations";
 import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
-import type { BrokerageMetric, LeadIntent, ServicePillar } from "@/types";
+import type { BrokerageFact, LeadIntent, ServicePillar } from "@/types";
 
 interface AboutWynnProps {
-  metrics: BrokerageMetric[];
+  facts: BrokerageFact[];
   pillars: ServicePillar[];
 }
 
-/** Words wrapped in asterisks are set in the serif gold accent. */
+/**
+ * Words wrapped in asterisks are set in the serif gold accent. Every claim
+ * here comes from the broker's own intake answers.
+ */
 const MANIFESTO =
-  "A home is the most personal asset you will ever own. We represent it that way — with absolute *discretion,* forensic market *intelligence,* and marketing engineered to command *attention.*";
+  "Buying or selling a home is personal. Irina Wynn has lived here, and raised her family here, for more than twenty years. She works the way a good neighbor would: *patient* with your questions, *honest* about the numbers, and *tough* at the negotiating table.";
 
 /**
  * The firm: a manifesto that illuminates word by word as it scrolls, the
- * headline brokerage metrics counting up, and the Buy / Sell / Invest
- * pillars as an expanding triptych.
+ * brokerage's credentials, and the Buy / Sell / Invest pillars as an
+ * expanding triptych.
  */
-export function AboutWynn({ metrics, pillars }: AboutWynnProps) {
+export function AboutWynn({ facts, pillars }: AboutWynnProps) {
   const manifesto = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
@@ -64,8 +67,8 @@ export function AboutWynn({ metrics, pillars }: AboutWynnProps) {
       <div className="mx-auto max-w-[1680px] px-5 md:px-10">
         <SectionHeading
           index="03"
-          eyebrow="The Wynn standard"
-          title={"Quietly *relentless.*"}
+          eyebrow="About Wynn Real Estate"
+          title={"Straight answers.\nStrong *negotiation.*"}
         />
 
         {/* Scroll-scrubbed manifesto */}
@@ -94,33 +97,39 @@ export function AboutWynn({ metrics, pillars }: AboutWynnProps) {
           </span>
         </p>
 
-        {/* Brokerage metrics */}
+        {/* Credentials: one counted figure, the rest short text. */}
         <dl className="mt-20 grid grid-cols-2 gap-x-6 gap-y-12 md:mt-28 lg:grid-cols-4 lg:gap-x-10">
-          {metrics.map((metric, index) => (
+          {facts.map((fact, index) => (
             <motion.div
-              key={metric.id}
+              key={fact.id}
               variants={fadeUp}
               custom={index * 0.08}
               initial="hidden"
               whileInView="visible"
               viewport={inView}
-              className="relative pt-7"
+              className="relative min-w-0 pt-7"
             >
               <span aria-hidden className="hairline-gold absolute inset-x-0 top-0 h-px" />
               <dt className="text-[11px] font-bold uppercase tracking-[0.24em] text-alabaster/55">
-                {metric.label}
+                {fact.label}
               </dt>
               <dd className="mt-4">
-                <AnimatedNumber
-                  value={metric.value}
-                  decimals={metric.decimals}
-                  prefix={metric.prefix}
-                  suffix={metric.suffix}
-                  duration={2.2}
-                  className="font-display text-[clamp(2.75rem,6.4vw,6rem)] font-semibold leading-none tracking-[-0.05em] text-gradient-gold"
-                />
+                {/* Sized per column count so the widest unbreakable fact (REALTOR®) always fits. */}
+                <span className="block font-display text-[clamp(1.4rem,6.6vw,3rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-gradient-gold lg:text-[clamp(2rem,3.4vw,3.75rem)]">
+                  {fact.value !== undefined ? (
+                    <AnimatedNumber
+                      value={fact.value}
+                      decimals={fact.decimals}
+                      prefix={fact.prefix}
+                      suffix={fact.suffix}
+                      duration={2.2}
+                    />
+                  ) : (
+                    fact.text
+                  )}
+                </span>
                 <p className="mt-4 max-w-[26ch] text-sm leading-relaxed text-alabaster/50">
-                  {metric.description}
+                  {fact.description}
                 </p>
               </dd>
             </motion.div>

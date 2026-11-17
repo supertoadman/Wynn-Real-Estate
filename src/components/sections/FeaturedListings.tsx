@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRef } from "react";
 import { PropertyCard, useListings } from "@/components/listings";
 import { Icon, MagneticButton, SectionHeading } from "@/components/ui";
+import { SAMPLE_DATA } from "@/data/sample";
 import { EASE, inView } from "@/lib/animations";
 import {
   BED_OPTIONS,
@@ -127,9 +128,13 @@ export function FeaturedListings({ properties, neighborhoods }: FeaturedListings
           <SectionHeading
             tone="light"
             index="01"
-            eyebrow="Featured residences"
-            title={"A portfolio curated,\nnot *collected.*"}
-            description="Each residence is accepted on merit — architecture, setting and provenance — and represented by a single advisory team from first viewing to closing."
+            eyebrow="Featured listings"
+            title={"Homes on the\nmarket *now.*"}
+            description={
+              SAMPLE_DATA
+                ? "Sample listings, shown to preview the layout. Our current Bright MLS listings will replace them."
+                : "Our current listings, shared through Bright MLS."
+            }
           />
 
           <div className="flex flex-col items-start gap-3 lg:items-end" aria-live="polite">
@@ -137,7 +142,7 @@ export function FeaturedListings({ properties, neighborhoods }: FeaturedListings
               <span className="font-display text-3xl font-semibold tabular-nums tracking-[-0.03em] text-obsidian">
                 {String(visible.length).padStart(2, "0")}
               </span>{" "}
-              {activeFilters > 0 ? "matching your search" : "residences on view"}
+              {activeFilters > 0 ? "matching your search" : SAMPLE_DATA ? "sample listings" : "listings"}
             </p>
 
             {chips.length > 0 && (
@@ -200,11 +205,11 @@ export function FeaturedListings({ properties, neighborhoods }: FeaturedListings
           {visible.length === 0 && (
             <div className="col-span-full flex flex-col items-center rounded-2xl border border-dashed border-ink/20 px-6 py-20 text-center">
               <p className="font-display text-3xl font-semibold tracking-[-0.03em]">
-                Nothing public matches — yet.
+                Nothing matches that search.
               </p>
               <p className="mt-3 max-w-md text-ink/60">
-                Much of our inventory trades privately. Clear your search, or ask
-                the private office what is available off-market.
+                Clear your search, or tell us what you are looking for and we
+                will keep an eye out for it.
               </p>
               <button
                 type="button"
@@ -219,7 +224,7 @@ export function FeaturedListings({ properties, neighborhoods }: FeaturedListings
 
         <div className="mt-20 flex flex-col items-start justify-between gap-8 border-t border-ink/15 pt-10 md:mt-28 md:flex-row md:items-center">
           <p className="max-w-2xl font-serif text-2xl italic leading-snug text-ink/85 md:text-3xl">
-            One in three Wynn sales never reaches the open market.
+            Most of our business comes from past clients and the people they send us.
           </p>
           <MagneticButton
             href="/#contact"
@@ -227,7 +232,7 @@ export function FeaturedListings({ properties, neighborhoods }: FeaturedListings
             size="lg"
             onClick={() => setInquiry({ intent: "buy" })}
           >
-            Request private inventory
+            Tell us what you need
           </MagneticButton>
         </div>
       </div>

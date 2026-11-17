@@ -1,27 +1,43 @@
 /**
  * Single source of truth for brokerage details.
- * PLACEHOLDER contact and licence values — replace before launch.
+ *
+ * Values come from the broker's intake answers (November 2026). Still to be
+ * confirmed against the Pennsylvania license record before launch: the exact
+ * business name on the brokerage license, and the year of first licensure.
  */
 export const siteConfig = {
   name: "Wynn Real Estate",
   shortName: "Wynn",
-  tagline: "Where legacy finds its address.",
+  tagline: "Local knowledge. Lasting relationships.",
   description:
-    "Wynn Real Estate represents the region's most significant residences — pairing discreet, data-driven advisory with marketing that moves markets.",
+    "Wynn Real Estate is a broker-led office in Huntingdon Valley, Pennsylvania. Broker Irina Wynn has been licensed for more than 20 years, helping people buy, sell, rent and invest with straight answers and steady negotiation.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   locale: "en-US",
   /** Fixed zone so dates render identically on the server and in the browser. */
-  timeZone: "America/Los_Angeles",
+  timeZone: "America/New_York",
+  broker: {
+    name: "Irina Wynn",
+    title: "Broker",
+    /** Member of the National Association of REALTORS, so the mark may be used. */
+    realtor: true,
+    licenseNumber: "RM420352",
+    licenseState: "Pennsylvania",
+    languages: ["English", "Russian"],
+    /** Direct line; the broker is happy to be texted on it. */
+    mobile: "(215) 421-7867",
+    mobileHref: "tel:+12154217867",
+  },
   contact: {
-    phone: "(555) 010-2400",
-    phoneHref: "tel:+15550102400",
-    email: "private@wynnrealestate.example",
-    addressLines: ["One Meridian Plaza, Suite 4000", "Port Sterling, CA 92602"],
-    hours: "Private appointments daily, 8am – 8pm",
+    /** The office's main line. */
+    phone: "(215) 938-1777",
+    phoneHref: "tel:+12159381777",
+    email: "wynnrealestate@hotmail.com",
+    addressLines: ["2327 Huntingdon Pike", "Huntingdon Valley, PA 19006"],
+    hours: "By appointment only",
   },
   legal: {
-    license: "Brokerage Lic. #00000000",
     entity: "Wynn Real Estate",
+    license: "Irina Wynn, Broker, REALTOR®. Licensed in Pennsylvania, license RM420352.",
   },
   /** Add `{ label, href }` entries to surface social links in the footer. */
   social: [] as Array<{ label: string; href: string }>,

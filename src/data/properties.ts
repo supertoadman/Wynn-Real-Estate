@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/site";
 import type { ListingAgent, Property, PropertyMedia } from "@/types";
 import { stockPhoto } from "./media";
 
@@ -8,11 +9,11 @@ import { stockPhoto } from "./media";
  */
 
 const privateOffice: ListingAgent = {
-  memberKey: "WYNN-PRIVATE-OFFICE",
-  fullName: "Wynn Private Office",
-  title: "Listing Advisory Team",
-  phone: "(555) 010-2400",
-  email: "private@wynnrealestate.example",
+  memberKey: "WYNN-OFFICE",
+  fullName: siteConfig.name,
+  title: "Listing office",
+  phone: siteConfig.contact.phone,
+  email: siteConfig.contact.email,
 };
 
 function photos(

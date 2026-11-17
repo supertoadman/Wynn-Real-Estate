@@ -9,15 +9,20 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-/** A headline brokerage statistic rendered by the animated counter. */
-export interface BrokerageMetric {
+/**
+ * A headline fact about the brokerage: either a number, which counts up, or
+ * a short piece of text such as a credential.
+ */
+export interface BrokerageFact {
   id: string;
   label: string;
   description: string;
-  value: number;
+  /** Numeric facts animate; give `value` or `text`, not both. */
+  value?: number;
   decimals?: number;
   prefix?: string;
   suffix?: string;
+  text?: string;
 }
 
 /** One of the Buy / Sell / Invest service pillars. */

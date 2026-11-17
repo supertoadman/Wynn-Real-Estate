@@ -6,7 +6,7 @@ import {
   MarketExplorer,
 } from "@/components/sections";
 import { Marquee } from "@/components/ui";
-import { brokerageMetrics, marqueePhrases, servicePillars } from "@/data";
+import { brokerageFacts, marqueePhrases, servicePillars } from "@/data";
 import { getNeighborhoods, getProperties } from "@/lib/api/listings";
 
 /**
@@ -30,7 +30,7 @@ export default async function HomePage() {
 
       <FeaturedListings properties={properties} neighborhoods={neighborhoods} />
       <MarketExplorer properties={properties} neighborhoods={neighborhoods} />
-      <AboutWynn metrics={brokerageMetrics} pillars={servicePillars} />
+      <AboutWynn facts={brokerageFacts} pillars={servicePillars} />
       <ContactCTA />
     </>
   );

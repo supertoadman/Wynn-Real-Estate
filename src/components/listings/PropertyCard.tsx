@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Icon } from "@/components/ui";
+import { SAMPLE_DATA } from "@/data/sample";
 import {
   displayPrice,
   formatCityLine,
@@ -127,6 +128,11 @@ export function PropertyCard({
           <p className="mt-4 text-[15px] font-semibold text-obsidian">{street}</p>
           <p className="mt-0.5 text-[13px] text-ink/60">{formatCityLine(property.address)}</p>
           <PropertySpecs property={property} className="mt-3.5 text-ink" />
+          {SAMPLE_DATA && (
+            <p className="mt-3 text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink/50">
+              Sample listing
+            </p>
+          )}
         </div>
       </button>
     </article>

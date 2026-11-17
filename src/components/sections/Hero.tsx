@@ -74,9 +74,9 @@ export function Hero({ properties, neighborhoods }: HeroProps) {
             className="flex items-center gap-2.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-alabaster/75 sm:gap-3 sm:text-[11px] sm:tracking-[0.32em]"
           >
             <span className="hidden h-px w-10 bg-gold sm:block" />
-            Luxury brokerage
+            Real estate brokerage
             <span className="text-gold">·</span>
-            Private advisory
+            Huntingdon Valley, PA
           </motion.p>
 
           <RevealText
@@ -84,7 +84,7 @@ export function Hero({ properties, neighborhoods }: HeroProps) {
             trigger="mount"
             delay={0.4}
             step={0.11}
-            text={"Where legacy\nfinds its *address.*"}
+            text={"Local knowledge.\nLasting *relationships.*"}
             className="mt-7 text-[clamp(3rem,8.4vw,8.5rem)] font-semibold leading-[0.93] tracking-[-0.05em] text-alabaster"
           />
 
@@ -97,10 +97,10 @@ export function Hero({ properties, neighborhoods }: HeroProps) {
 
           <motion.div {...rise(1.2)} className="mt-10 flex flex-wrap items-center gap-4">
             <MagneticButton href="/#listings" size="lg">
-              Explore residences
+              See our listings
             </MagneticButton>
             <MagneticButton href="/#contact" size="lg" variant="outline">
-              Book a private consultation
+              Book a consultation
             </MagneticButton>
           </motion.div>
         </div>

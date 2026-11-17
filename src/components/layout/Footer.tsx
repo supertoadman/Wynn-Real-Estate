@@ -15,7 +15,7 @@ async function CopyrightYear() {
 }
 
 export function Footer() {
-  const { contact, legal, social } = siteConfig;
+  const { broker, contact, legal, social } = siteConfig;
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-obsidian text-alabaster">
@@ -56,7 +56,7 @@ export function Footer() {
 
           <div className="md:col-span-3">
             <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
-              Private office
+              Office
             </h2>
             <address className="mt-6 space-y-3.5 text-sm not-italic text-alabaster/70">
               <p>
@@ -81,6 +81,16 @@ export function Footer() {
                 >
                   {contact.email}
                 </a>
+              </p>
+              <p>
+                {broker.name}:{" "}
+                <a
+                  href={broker.mobileHref}
+                  className="tabular-nums transition-colors hover:text-gold-bright"
+                >
+                  {broker.mobile}
+                </a>{" "}
+                <span className="text-alabaster/45">(call or text)</span>
               </p>
               <p className="text-alabaster/45">{contact.hours}</p>
             </address>

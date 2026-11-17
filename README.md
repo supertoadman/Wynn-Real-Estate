@@ -84,11 +84,19 @@ To send one person's answers somewhere else, add the recipient after a `#` when 
 
 ## Before launch
 
-Everything below is **placeholder content** and must be replaced:
+**Real, from the broker's intake answers (November 2026):** the brokerage name, broker, license number, phones, email, office address and hours in `src/lib/site.ts`, and the services, credentials and copy in `src/data/content.ts` and the section components. Copy is limited to what she confirmed; claims she did not confirm (off-market sales, film and video marketing, sales figures) were removed.
 
-- Listings, neighborhoods and market statistics in `src/data/` (fictional).
-- Brokerage metrics and marketing claims in `src/data/content.ts` — performance claims must be verifiable.
-- Phone, email, address and licence number in `src/lib/site.ts`.
-- Listing photography (stock images hot-linked from Unsplash).
+**Still sample content, labelled as such on the site while `SAMPLE_DATA` in `src/data/sample.ts` is true:**
 
-Also add rate limiting and bot protection to `POST /api/leads`.
+- Listings in `src/data/properties.ts` (fictional). She has current listings on Bright MLS; they need an IDX feed or manual entry, with photos she has the rights to.
+- Neighborhoods and market statistics in `src/data/neighborhoods.ts` (fictional). The towns she works in and her main county were left blank.
+- Photography (stock images hot-linked from Unsplash), including the service panels.
+
+**To confirm or collect:**
+
+- The exact business name on the brokerage's Pennsylvania license (left blank; she says "Wynn Real Estate" is it). 49 Pa. Code § 35.305(a) requires advertising under that name.
+- Her year of first licensure. The site says "20+" years from her "21 to 30 years" answer.
+- Facebook and Instagram addresses, her second language besides Russian, headshot and logo files, whether she owns a domain, and client permission before quoting any reviews.
+- Have the broker review the site before launch.
+
+**Before going public:** remove the `noindex` in `src/app/layout.tsx`, connect the consultation form (she wants enquiries texted to her), and add rate limiting and bot protection to `POST /api/leads`.

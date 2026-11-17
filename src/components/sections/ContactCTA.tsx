@@ -16,9 +16,9 @@ import type {
 } from "@/types";
 
 const ASSURANCES = [
-  "A reply from a senior advisor within one business day",
-  "No obligation, and no pressure — ever",
-  "Your details are held in confidence and never shared",
+  "A reply within one business day",
+  `Talk directly with the broker, ${siteConfig.broker.name}`,
+  `${siteConfig.broker.languages.join(" and ")} spoken`,
 ];
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -115,8 +115,8 @@ export function ContactCTA() {
           <SectionHeading
             tone="light"
             index="04"
-            eyebrow="Private consultation"
-            title={"Begin with a\n*confidential* conversation."}
+            eyebrow="Consultation"
+            title={"Start with a\n*straight* conversation."}
             description="Tell us what you are considering. We'll come back with a clear view of the market, your options, and how we would approach it — whether you act this quarter or next year."
           />
 
@@ -146,12 +146,20 @@ export function ContactCTA() {
             viewport={inView}
             className="mt-12 grid gap-6 border-t border-ink/15 pt-8 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"
           >
-            <ContactLine icon={<Icon.Phone />} label="Call the private office">
+            <ContactLine icon={<Icon.Phone />} label="Call the office">
               <a
                 href={siteConfig.contact.phoneHref}
                 className="tabular-nums transition-colors hover:text-crimson"
               >
                 {siteConfig.contact.phone}
+              </a>
+            </ContactLine>
+            <ContactLine icon={<Icon.Phone />} label={`Call or text ${siteConfig.broker.name}`}>
+              <a
+                href={siteConfig.broker.mobileHref}
+                className="tabular-nums transition-colors hover:text-crimson"
+              >
+                {siteConfig.broker.mobile}
               </a>
             </ContactLine>
             <ContactLine icon={<Icon.Mail />} label="Write to us">
@@ -196,8 +204,8 @@ export function ContactCTA() {
                     Thank you{firstName ? `, ${firstName}` : ""}.
                   </h3>
                   <p className="mt-4 max-w-md text-alabaster/70">
-                    Your enquiry is with the private office. A senior advisor will
-                    be in touch within one business day.
+                    Your enquiry is with our office. We will be in touch within
+                    one business day.
                   </p>
                   <button
                     type="button"

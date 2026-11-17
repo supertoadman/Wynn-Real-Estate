@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, type KeyboardEvent } from "react";
 import { PropertyStatusBadge, useListings } from "@/components/listings";
 import { AnimatedNumber, Badge, Icon, SectionHeading } from "@/components/ui";
+import { SAMPLE_DATA } from "@/data/sample";
 import { EASE, wipe } from "@/lib/animations";
 import {
   displayPrice,
@@ -70,7 +71,11 @@ export function MarketExplorer({ neighborhoods, properties }: MarketExplorerProp
           index="02"
           eyebrow="Neighborhood explorer"
           title={"Know the market\nbefore you *move.*"}
-          description="Choose a neighborhood to see what is trading, how quickly, and at what premium — drawn from closed sales rather than asking prices."
+          description={
+            SAMPLE_DATA
+              ? "Sample neighborhoods and figures, shown to preview the layout. The areas we work in and Bright MLS market data will replace them."
+              : "Choose a neighborhood to see what is selling, how quickly, and for how much."
+          }
         />
 
         <div className="mt-14 grid gap-10 md:mt-20 lg:grid-cols-12 lg:gap-14">

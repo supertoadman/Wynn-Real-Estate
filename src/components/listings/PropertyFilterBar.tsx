@@ -58,7 +58,7 @@ export function PropertyFilterBar({
       <form
         onSubmit={onSubmit}
         role="search"
-        aria-label="Search residences"
+        aria-label="Search homes"
         className="grid grid-cols-2 gap-px lg:grid-cols-[1.25fr_1fr_1fr_0.9fr_auto] lg:items-stretch"
       >
         <Field label="Neighborhood" icon={<Icon.MapPin />}>
@@ -140,7 +140,7 @@ export function PropertyFilterBar({
             <span aria-live="polite" className="tabular-nums">
               {matches === 0
                 ? "No matches"
-                : `Show ${matches} ${matches === 1 ? "residence" : "residences"}`}
+                : `Show ${matches} ${matches === 1 ? "home" : "homes"}`}
             </span>
           </MagneticButton>
         </div>
